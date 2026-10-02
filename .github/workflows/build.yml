@@ -1,0 +1,29 @@
+name: Build Android ARM64 Static lptools
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and verify
+        run: |
+          chmod +x scripts/build.sh scripts/verify-static.sh
+          ./scripts/build.sh
+          ./scripts/verify-static.sh out/bin
+      - name: Package
+        run: |
+          mkdir -p release/android-lptools-static-arm64
+          cp out/bin/* release/android-lptools-static-arm64/
+          cp README.md release/android-lptools-static-arm64/
+          tar -C release -czf android-lptools-static-arm64.tar.gz android-lptools-static-arm64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-lptools-static-arm64
+          path: |
+            release/android-lptools-static-arm64.tar.gz
+            out/bin/*
