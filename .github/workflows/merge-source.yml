@@ -45,6 +45,9 @@ jobs:
           git show source/android-14:README.md > docs/ANDROID-LPTOOLS.md
           git add docs/ANDROID-LPTOOLS.md
 
+          # GITHUB_TOKEN cannot push changes to workflow files.
+          # The source release workflow is added separately after this merge.
+          git rm -f .github/workflows/release.yml
           git rm -f .github/workflows/merge-source.yml
           git commit -m "Merge android-lptools android-14 source"
           git push origin HEAD:main
