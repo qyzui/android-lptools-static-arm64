@@ -5,8 +5,11 @@ WORK="$ROOT/work"
 OUT="$ROOT/out"
 SRC="$WORK/android-lptools"
 rm -rf "$WORK" "$OUT"
-mkdir -p "$WORK" "$OUT/bin"
-git clone --depth=1 --branch android-14 https://github.com/qyzui/android-lptools.git "$SRC"
+mkdir -p "$SRC" "$OUT/bin"
+# The full android-lptools source is now part of this repository.
+# Export the checked-out tree into a temporary build tree so the build can
+# patch lpdump.cc/make.sh without modifying the repository checkout.
+git archive --format=tar HEAD | tar -x -C "$SRC"
 NDK="${ANDROID_NDK_ROOT:-${ANDROID_NDK_HOME:-}}"
 test -n "$NDK"
 HOST_TAG=linux-x86_64
