@@ -6,7 +6,7 @@ OUT="$ROOT/out"
 SRC="$WORK/android-lptools"
 rm -rf "$WORK" "$OUT"
 mkdir -p "$WORK" "$OUT/bin"
-git clone --depth=1 --branch android-14 https://github.com/itsNileshHere/android-lptools.git "$SRC"
+git clone --depth=1 --branch android-14 https://github.com/qyzui/android-lptools.git "$SRC"
 NDK="${ANDROID_NDK_ROOT:-${ANDROID_NDK_HOME:-}}"
 test -n "$NDK"
 HOST_TAG=linux-x86_64
