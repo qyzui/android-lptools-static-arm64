@@ -28,10 +28,15 @@ jobs:
           git remote add source https://github.com/qyzui/android-lptools.git
           git fetch --no-tags source android-14
 
-          git merge --allow-unrelated-histories --no-commit source/android-14
+          git merge --allow-unrelated-histories --no-commit source/android-14 || true
 
-          if git ls-files -u | grep -q '^'; then
-            echo "Resolving README.md in favor of the target repository."
+          conflicts="$(git diff --name-only --diff-filter=U)"
+          if [ -n "$conflicts" ]; then
+            if [ "$conflicts" != "README.md" ]; then
+              echo "Unexpected merge conflicts:"
+              printf '%s\n' "$conflicts"
+              exit 1
+            fi
             git checkout --ours README.md
             git add README.md
           fi
